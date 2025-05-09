@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Arena</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #121212;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated background elements */
+        .bg-particle {
+            position: absolute;
+            background: rgba(255, 193, 7, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            margin-top: 30px;
+        }
+        
+        h1 {
+            color: #ffc107;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        p.subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+        
+        select {
+            padding: 12px;
+            font-size: 16px;
+            width: 100%;
+            margin: 20px 0;
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #ffc107;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+        }
+        
+        .results {
+            background: rgba(51, 51, 51, 0.8);
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #ffc107;
+            transition: all 0.5s;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .results.visible {
+            opacity: 1;
+            height: auto;
+            padding: 20px;
+        }
+        
+        .result-item {
+            margin: 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
+        }
+        
+        .winner {
+            color: #4caf50;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        /* Battle animation */
+        @keyframes battleFlash {
+            0% { background-color: rgba(229, 57, 53, 0.1); }
+            50% { background-color: rgba(229, 57, 53, 0.3); }
+            100% { background-color: rgba(229, 57, 53, 0.1); }
+        }
+        
+        .battling {
+            animation: battleFlash 0.5s 3;
+        }
+        
+        /* Floating animation for cards */
+        .float {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background particles will be added by JS -->
+    
+    <div class="container float">
+        <h1>Algorithm Arena</h1>
+        <p class="subtitle">Battle Find-S against other algorithms</p>
+        
+        <select id="algorithm-select">
+            <option value="">Select an algorithm to battle</option>
+            <option value="ce">Candidate Elimination</option>
+            <option value="id3">ID3 Decision Tree</option>
+            <option value="nb">Naive Bayes</option>
+            <option value="knn">k-Nearest Neighbors</option>
+        </select>
+        
+        <div id="results" class="results">
+            <h2>Battle Results</h2>
+            <div class="result-item">
+                <strong>Speed:</strong> <span id="speed">-</span>
+                <div class="winner" id="speed-winner"></div>
+            </div>
+            <div class="result-item">
+                <strong>Accuracy:</strong> <span id="accuracy">-</span>
+                <div class="winner" id="accuracy-winner"></div>
+            </div>
+            <div class="result-item">
+                <strong>Noise Handling:</strong> <span id="noise">-</span>
+                <div class="winner" id="noise-winner"></div>
+            </div>
+            <div class="result-item">
+                <strong>Winner:</strong> <span id="winner" class="winner">-</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create background particles
+        function createParticles() {
+            const particleCount = 20;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('bg-particle');
+                
+                // Random properties
+                const size = Math.random() * 10 + 5;
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                const opacity = Math.random() * 0.3 + 0.1;
+                const duration = Math.random() * 20 + 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}px`;
+                particle.style.top = `${posY}px`;
+                particle.style.opacity = opacity;
+                particle.style.animation = `float ${duration}s infinite`;
+                
+                document.body.appendChild(particle);
+            }
+        }
+        
+        // Simple data for each algorithm
+        const algorithms = {
+            "ce": {
+                name: "Candidate Elimination",
+                speed: "Find-S: 0.2s | Candidate Elimination: 1.2s",
+                accuracy: "Find-S: 87% | Candidate Elimination: 92%",
+                noise: "Find-S: Poor | Candidate Elimination: Good",
+                winner: "Candidate Elimination",
+                speedWinner: "Find-S",
+                accuracyWinner: "Candidate Elimination",
+                noiseWinner: "Candidate Elimination"
+            },
+            "id3": {
+                name: "ID3 Decision Tree",
+                speed: "Find-S: 0.2s | ID3: 2.5s",
+                accuracy: "Find-S: 87% | ID3: 89%",
+                noise: "Find-S: Poor | ID3: Fair",
+                winner: "ID3",
+                speedWinner: "Find-S",
+                accuracyWinner: "ID3",
+                noiseWinner: "ID3"
+            },
+            "nb": {
+                name: "Naive Bayes",
+                speed: "Find-S: 0.2s | Naive Bayes: 0.3s",
+                accuracy: "Find-S: 87% | Naive Bayes: 85%",
+                noise: "Find-S: Poor | Naive Bayes: Excellent",
+                winner: "Find-S",
+                speedWinner: "Find-S",
+                accuracyWinner: "Find-S",
+                noiseWinner: "Naive Bayes"
+            },
+            "knn": {
+                name: "k-Nearest Neighbors",
+                speed: "Find-S: 0.2s | k-NN: 3.0s",
+                accuracy: "Find-S: 87% | k-NN: 88%",
+                noise: "Find-S: Poor | k-NN: Good",
+                winner: "k-NN",
+                speedWinner: "Find-S",
+                accuracyWinner: "k-NN",
+                noiseWinner: "k-NN"
+            }
+        };
+
+        // Get DOM elements
+        const select = document.getElementById("algorithm-select");
+        const resultsDiv = document.getElementById("results");
+        const container = document.querySelector(".container");
+        
+        // Create background particles when page loads
+        window.addEventListener('load', createParticles);
+        
+        // When selection changes
+        select.addEventListener("change", function() {
+            const selected = this.value;
+            
+            if (!selected) {
+                resultsDiv.classList.remove("visible");
+                return;
+            }
+            
+            // Add battling animation
+            container.classList.add("battling");
+            
+            // Get the selected algorithm's data
+            const algo = algorithms[selected];
+            
+            // Show calculating state
+            document.getElementById("speed").textContent = "Calculating...";
+            document.getElementById("accuracy").textContent = "Calculating...";
+            document.getElementById("noise").textContent = "Calculating...";
+            document.getElementById("winner").textContent = "Calculating...";
+            
+            // Show results container (hidden at first)
+            resultsDiv.classList.add("visible");
+            
+            // Simulate battle processing delay
+            setTimeout(() => {
+                // Update the results
+                document.getElementById("speed").textContent = algo.speed;
+                document.getElementById("accuracy").textContent = algo.accuracy;
+                document.getElementById("noise").textContent = algo.noise;
+                document.getElementById("winner").textContent = algo.winner;
+                
+                // Update winners
+                document.getElementById("speed-winner").textContent = `${algo.speedWinner} wins!`;
+                document.getElementById("accuracy-winner").textContent = `${algo.accuracyWinner} wins!`;
+                document.getElementById("noise-winner").textContent = `${algo.noiseWinner} wins!`;
+                
+                // Remove battling animation
+                container.classList.remove("battling");
+                
+                // Scroll to results
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
