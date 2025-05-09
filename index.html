@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#4a90e2" />
+  <meta name="description" content="Interactive Find-S Algorithm learning platform with games and visualizations" />
+  
+  <!-- Open Graph / Social Media Sharing -->
+  <meta property="og:title" content="Find-S Algorithm Interactive Learning" />
+  <meta property="og:description" content="Explore concept learning with interactive Find-S algorithm applications" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://your-website-url.com" />
+  <meta property="og:image" content="https://your-website-url.com/preview-image.png" />
+  
+  <title>Find-S Algorithm</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4a90e2;
+      --primary-dark: #3a7bc8;
+      --background-light: #f5f5f5;
+      --text-light: #333;
+      --text-lighter: #555;
+      --card-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      --card-shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background-light);
+      color: var(--text-light);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      left: -50px;
+      right: -50px;
+      bottom: -50px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      pointer-events: none;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      position: relative;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      font-size: 1.2rem;
+      opacity: 0.9;
+      position: relative;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      padding: 1.8rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .card i {
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+      color: var(--primary-color);
+    }
+
+    .card h2 {
+      margin: 0 0 1rem 0;
+      font-size: 1.4rem;
+      color: var(--text-light);
+    }
+
+    .card p {
+      margin: 0 0 1.5rem 0;
+      color: var(--text-lighter);
+      font-size: 0.95rem;
+      flex-grow: 1;
+    }
+
+    .card-footer {
+      margin-top: auto;
+    }
+
+    .badge-container {
+      margin: 2rem auto;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ffd700 0%, #ffcc00 100%);
+      color: #000;
+      font-weight: 600;
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      margin: 0.3rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 0.85rem;
+    }
+
+    .community-section {
+      margin: 3rem auto;
+      max-width: 800px;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .community-section h2 {
+      margin-top: 0;
+      color: var(--primary-color);
+    }
+
+    .community-section a {
+      color: var(--primary-color);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .chatbot-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--primary-color);
+      color: white;
+      padding: 0.9rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      font-weight: 600;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .chatbot-toggle:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+
+    .chatbot {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 320px;
+      max-width: calc(100% - 40px);
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      z-index: 99;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chatbot-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 0.8rem;
+      font-weight: bold;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .chatbot-body {
+      padding: 1rem;
+      font-size: 0.9rem;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .chatbot-body details {
+      margin-bottom: 0.8rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.8rem;
+    }
+
+    .chatbot-body details:last-child {
+      border-bottom: none;
+    }
+
+    .chatbot-body summary {
+      cursor: pointer;
+      font-weight: 600;
+      padding: 0.5rem 0;
+      outline: none;
+      color: var(--primary-color);
+    }
+
+    .chatbot-body p {
+      margin: 0.5rem 0 0 0;
+      padding-left: 1rem;
+      color: var(--text-lighter);
+    }
+
+    canvas#bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: 0.6;
+    }
+
+    /* Responsive improvements */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      header p {
+        font-size: 1rem;
+      }
+      
+      .container {
+        grid-template-columns: 1fr;
+        margin: 1rem;
+        padding: 0;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      .community-section {
+        margin: 2rem 1rem;
+        padding: 1.5rem;
+      }
+      
+      .chatbot {
+        width: calc(100% - 40px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 1.5rem 1rem;
+      }
+      
+      .card h2 {
+        font-size: 1.3rem;
+      }
+      
+      .chatbot-toggle {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  
+  <header>
+    <h1>Find-S Algorithm</h1>
+    <p>Explore interactive apps to understand concept learning with Find-S</p>
+  </header>
+
+  <main class="container">
+    <div class="card" onclick="window.location.href='weather-classifier.html'">
+      <i class="fas fa-sun"></i>
+      <h2>Weather Classifier</h2>
+      <p>Learn Find-S using a simple weather dataset (e.g., Sunny, Rainy).</p>
+    </div>
+    
+    <div class="card" onclick="window.location.href='custom-input-trainer.html'">
+      <i class="fas fa-edit"></i>
+      <h2>Custom Input Trainer</h2>
+      <p>Enter your own feature examples and labels to see how the hypothesis evolves.</p>
+    </div>
+    
+    <div class="card" onclick="window.location.href='step-by-step-visualizer.html'">
+      <i class="fas fa-forward"></i>
+      <h2>Step-by-Step Visualizer</h2>
+      <p>Watch the algorithm update its hypothesis one example at a time.</p>
+    </div>
+    
+    <div class="card" onclick="window.location.href='csv-upload.html'">
+      <i class="fas fa-file-csv"></i>
+      <h2>Upload CSV</h2>
+      <p>Upload your own CSV data and apply the Find-S algorithm dynamically.</p>
+    </div>
+    
+    <div class="card" onclick="window.location.href='quiz.html'">
+      <i class="fas fa-question-circle"></i>
+      <h2>Quiz Your Knowledge</h2>
+      <p>Test your understanding of the Find-S algorithm through mini challenges.</p>
+    </div>
+    
+    <div class="card" onclick="window.location.href='battle.html'">
+      <i class="fas fa-robot"></i>
+      <h2>Algorithm Arena</h2>
+      <p>Battle Find-S against other machine learning algorithms and compare their performance.</p>
+    </div>
+    
+    <div class="card" onclick="window.location.href='find-s-game.html'">
+      <i class="fas fa-search"></i>
+      <h2>Find-S Games</h2>
+      <p>Test your understanding of the Find-S algorithm by solving concept learning problems step-by-step.</p>
+    </div>
+    
+    <div class="card" onclick="window.location.href='timeline.html'">
+      <i class="fas fa-history"></i>
+      <h2>ML Evolution Timeline</h2>
+      <p>Explore the complete history of machine learning from 1763 to present.</p>
+      <div class="card-footer">
+        <span class="badge">Interactive</span>
+        <span class="badge">Visual</span>
+      </div>
+    </div>
+  </main>
+
+  <div class="badge-container">
+    <span class="badge">🏅 Learner</span>
+    <span class="badge">🌟 Contributor</span>
+    <span class="badge">🚀 Explorer</span>
+  </div>
+
+  <div class="community-section">
+    <h2>Community Datasets</h2>
+    <p>Submit your training examples and see what others have shared. <a href="#">View/Add</a></p>
+  </div>
+
+  <button class="chatbot-toggle" onclick="toggleChatbot()">Ask Find-S 🤖</button>
+  <div class="chatbot" id="chatbot">
+    <div class="chatbot-header">Find-S Assistant</div>
+    <div class="chatbot-body">
+      <details>
+        <summary>💡 What is Find-S?</summary>
+        <p>The Find-S algorithm finds the most specific hypothesis that fits all positive examples in a dataset.</p>
+      </details>
+      <details>
+        <summary>🛠️ How does it work?</summary>
+        <p>It starts with the most specific hypothesis and generalizes it only when necessary to match positive examples.</p>
+      </details>
+      <details>
+        <summary>📊 How should datasets be prepared?</summary>
+        <p>Datasets should have consistent features, include only positive examples for training, and no missing values.</p>
+      </details>
+      <details>
+        <summary>🧪 What is a hypothesis in Find-S?</summary>
+        <p>It's a representation of the concept being learned, updated through iterations over training data.</p>
+      </details>
+      <details>
+        <summary>📘 Can Find-S handle noisy data?</summary>
+        <p>Not effectively. Find-S assumes that all positive examples are correct, so it's sensitive to noise.</p>
+      </details>
+      <details>
+        <summary>🧠 Quiz: What happens if the second training example contradicts the first?</summary>
+        <p>The hypothesis is not updated because Find-S ignores negative examples.</p>
+      </details>
+      <details>
+        <summary>❓ Quiz: If H = [&quot;Sunny&quot;, "Warm", "?", "?", "?", "?"] and the next is ["Sunny", "Cold", "High", "Strong", "Warm", "Yes"]?</summary>
+        <p>H becomes ["Sunny", "?", "?", "?", "?", "?"].</p>
+      </details>
+    </div>
+  </div>
+
+  <script>
+    // Chatbot toggle with animation
+    function toggleChatbot() {
+      const bot = document.getElementById("chatbot");
+      const isHidden = bot.style.display !== "block";
+      
+      if (isHidden) {
+        bot.style.display = "block";
+        bot.style.animation = "fadeIn 0.3s ease";
+      } else {
+        bot.style.animation = "fadeIn 0.3s ease reverse";
+        setTimeout(() => {
+          bot.style.display = "none";
+        }, 250);
+      }
+    }
+
+    // Close chatbot when clicking outside
+    document.addEventListener('click', function(event) {
+      const chatbot = document.getElementById('chatbot');
+      const toggleBtn = document.querySelector('.chatbot-toggle');
+      
+      if (chatbot.style.display === 'block' && 
+          !chatbot.contains(event.target) && 
+          event.target !== toggleBtn) {
+        toggleChatbot();
+      }
+    });
+
+    // Enhanced background animation
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
+    
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    
+    resizeCanvas();
+    
+    const particles = [];
+    const particleCount = Math.floor(window.innerWidth * window.innerHeight / 2000);
+    
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        dx: (Math.random() - 0.5) * 0.8,
+        dy: (Math.random() - 0.5) * 0.8,
+        opacity: Math.random() * 0.4 + 0.2
+      });
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw connecting lines
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 100) {
+            ctx.strokeStyle = `rgba(74, 144, 226, ${1 - distance/100})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      
+      // Draw particles
+      particles.forEach(p => {
+        ctx.fillStyle = `rgba(74, 144, 226, ${p.opacity})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Update position
+        p.x += p.dx;
+        p.y += p.dy;
+        
+        // Bounce off edges
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      });
+      
+      requestAnimationFrame(drawParticles);
+    }
+
+    drawParticles();
+    
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+    });
+
+    // Add touch support for mobile
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('touchstart', function() {
+        this.classList.add('touched');
+      }, false);
+      
+      card.addEventListener('touchend', function() {
+        this.classList.remove('touched');
+      }, false);
+    });
+  </script>
+</body>
+</html>
