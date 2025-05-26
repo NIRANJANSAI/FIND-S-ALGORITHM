@@ -29,6 +29,7 @@
       --text-lighter: #555;
       --card-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
       --card-shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.15);
+      --accent-color: #ff6b6b;
     }
 
     * {
@@ -37,7 +38,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background-color: var(--background-light);
+      background-color: #0a192f;
       color: var(--text-light);
       margin: 0;
       padding: 0;
@@ -46,189 +47,287 @@
     }
 
     header {
-      background-color: var(--primary-color);
+      background: linear-gradient(135deg, #0a192f 0%, #172a45 100%);
       color: white;
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 3rem 1rem;
       position: relative;
       overflow: hidden;
+      border-bottom: 1px solid rgba(74, 144, 226, 0.3);
     }
 
     header::before {
       content: "";
       position: absolute;
-      top: -50px;
-      left: -50px;
-      right: -50px;
-      bottom: -50px;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(74, 144, 226, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255, 107, 107, 0.15) 0%, transparent 40%);
       pointer-events: none;
     }
 
     header h1 {
       margin: 0;
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       position: relative;
+      background: linear-gradient(90deg, #4a90e2, #64f0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
     }
 
     header p {
-      margin-top: 0.5rem;
+      margin-top: 1rem;
       font-size: 1.2rem;
       opacity: 0.9;
       position: relative;
+      color: #ccd6f6;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .container {
       max-width: 1200px;
-      margin: 2rem auto;
+      margin: 3rem auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      padding: 0 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 1.5rem;
     }
 
     .card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      padding: 1.8rem;
+      background: rgba(10, 25, 47, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      padding: 2rem;
       text-align: center;
       transition: all 0.3s ease;
       cursor: pointer;
-      border: 1px solid rgba(0,0,0,0.05);
+      border: 1px solid rgba(74, 144, 226, 0.2);
       display: flex;
       flex-direction: column;
       height: 100%;
+      position: relative;
+      overflow: hidden;
+      color: #ccd6f6;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #4a90e2, #64f0ff, #ff6b6b, #4a90e2);
+      background-size: 400%;
+      z-index: -1;
+      border-radius: 16px;
+      opacity: 0;
+      transition: 0.5s;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+      animation: animate-border 8s linear infinite;
+    }
+
+    @keyframes animate-border {
+      0% { background-position: 0 0; }
+      50% { background-position: 300% 0; }
+      100% { background-position: 0 0; }
     }
 
     .card:hover {
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+      border-color: rgba(74, 144, 226, 0.5);
     }
 
     .card i {
-      font-size: 2.5rem;
-      margin-bottom: 1.2rem;
-      color: var(--primary-color);
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, #4a90e2, #64f0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .card h2 {
-      margin: 0 0 1rem 0;
-      font-size: 1.4rem;
-      color: var(--text-light);
+      margin: 0 0 1.2rem 0;
+      font-size: 1.5rem;
+      color: #e6f1ff;
+      font-weight: 600;
     }
 
     .card p {
-      margin: 0 0 1.5rem 0;
-      color: var(--text-lighter);
-      font-size: 0.95rem;
+      margin: 0 0 1.8rem 0;
+      color: #8892b0;
+      font-size: 1rem;
       flex-grow: 1;
+      line-height: 1.7;
     }
 
     .card-footer {
       margin-top: auto;
     }
 
-    .badge-container {
-      margin: 2rem auto;
-      text-align: center;
-    }
-
     .badge {
       display: inline-block;
-      background: linear-gradient(135deg, #ffd700 0%, #ffcc00 100%);
-      color: #000;
+      background: linear-gradient(135deg, rgba(74, 144, 226, 0.2) 0%, rgba(100, 240, 255, 0.2) 100%);
+      color: #64f0ff;
       font-weight: 600;
       padding: 0.5rem 1.2rem;
       border-radius: 20px;
       margin: 0.3rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       font-size: 0.85rem;
+      border: 1px solid rgba(100, 240, 255, 0.3);
     }
 
-    .community-section {
-      margin: 3rem auto;
-      max-width: 800px;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    .demo-section {
+      margin: 4rem auto;
+      max-width: 900px;
+      background: rgba(10, 25, 47, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       text-align: center;
+      border: 1px solid rgba(74, 144, 226, 0.2);
     }
 
-    .community-section h2 {
+    .demo-section h2 {
+      color: #64f0ff;
       margin-top: 0;
-      color: var(--primary-color);
+      font-size: 2rem;
     }
 
-    .community-section a {
-      color: var(--primary-color);
-      font-weight: 600;
+    .demo-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .demo-box {
+      background: rgba(23, 42, 69, 0.6);
+      border-radius: 12px;
+      padding: 1.5rem;
+      width: 250px;
+      border: 1px solid rgba(74, 144, 226, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .demo-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+      border-color: rgba(74, 144, 226, 0.5);
+    }
+
+    .demo-box h3 {
+      color: #e6f1ff;
+      margin-top: 0;
+    }
+
+    .demo-box p {
+      color: #8892b0;
+      font-size: 0.95rem;
+    }
+
+    .community-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #4a90e2 0%, #64f0ff 100%);
+      color: #0a192f;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
       text-decoration: none;
+      margin: 2rem auto;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(74, 144, 226, 0.4);
+    }
+
+    .community-link:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 28px rgba(74, 144, 226, 0.6);
     }
 
     .chatbot-toggle {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: var(--primary-color);
-      color: white;
-      padding: 0.9rem 1.5rem;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #4a90e2 0%, #64f0ff 100%);
+      color: #0a192f;
+      padding: 1rem 1.8rem;
       border: none;
-      border-radius: 30px;
+      border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(74, 144, 226, 0.4);
+      font-weight: 700;
       z-index: 100;
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .chatbot-toggle:hover {
-      background: var(--primary-dark);
-      transform: scale(1.05);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 28px rgba(74, 144, 226, 0.6);
     }
 
     .chatbot {
       display: none;
       position: fixed;
-      bottom: 80px;
-      right: 20px;
-      width: 320px;
-      max-width: calc(100% - 40px);
-      background: white;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
+      bottom: 100px;
+      right: 30px;
+      width: 350px;
+      max-width: calc(100% - 60px);
+      background: rgba(10, 25, 47, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(74, 144, 226, 0.3);
+      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
       z-index: 99;
       animation: fadeIn 0.3s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .chatbot-header {
-      background: var(--primary-color);
+      background: linear-gradient(135deg, rgba(74, 144, 226, 0.3) 0%, rgba(100, 240, 255, 0.3) 100%);
       color: white;
-      padding: 0.8rem;
+      padding: 1.2rem;
       font-weight: bold;
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
+      border-bottom: 1px solid rgba(74, 144, 226, 0.2);
     }
 
     .chatbot-body {
-      padding: 1rem;
-      font-size: 0.9rem;
+      padding: 1.5rem;
+      font-size: 1rem;
       max-height: 400px;
       overflow-y: auto;
     }
 
     .chatbot-body details {
-      margin-bottom: 0.8rem;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 0.8rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(74, 144, 226, 0.1);
+      padding-bottom: 1rem;
     }
 
     .chatbot-body details:last-child {
@@ -240,29 +339,36 @@
       font-weight: 600;
       padding: 0.5rem 0;
       outline: none;
-      color: var(--primary-color);
+      color: #64f0ff;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chatbot-body summary:hover {
+      color: #4a90e2;
     }
 
     .chatbot-body p {
-      margin: 0.5rem 0 0 0;
-      padding-left: 1rem;
-      color: var(--text-lighter);
+      margin: 0.8rem 0 0 1.5rem;
+      color: #8892b0;
+      line-height: 1.6;
     }
 
-    canvas#bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+    /* New Floating Particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(100, 240, 255, 0.15);
+      pointer-events: none;
       z-index: -1;
-      opacity: 0.6;
     }
 
     /* Responsive improvements */
     @media (max-width: 768px) {
       header h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
       }
       
       header p {
@@ -271,27 +377,43 @@
       
       .container {
         grid-template-columns: 1fr;
-        margin: 1rem;
+        margin: 2rem 1rem;
         padding: 0;
       }
       
       .card {
-        padding: 1.5rem;
+        padding: 1.8rem;
       }
       
-      .community-section {
-        margin: 2rem 1rem;
-        padding: 1.5rem;
+      .demo-section {
+        margin: 3rem 1.5rem;
+        padding: 2rem;
       }
       
       .chatbot {
         width: calc(100% - 40px);
+        right: 20px;
+        bottom: 90px;
+      }
+      
+      .chatbot-toggle {
+        right: 20px;
+        bottom: 20px;
+        padding: 0.9rem 1.5rem;
+      }
+      
+      .demo-box {
+        width: 100%;
       }
     }
 
     @media (max-width: 480px) {
       header {
-        padding: 1.5rem 1rem;
+        padding: 2rem 1rem;
+      }
+      
+      header h1 {
+        font-size: 1.8rem;
       }
       
       .card h2 {
@@ -299,63 +421,102 @@
       }
       
       .chatbot-toggle {
-        padding: 0.7rem 1.2rem;
+        padding: 0.8rem 1.2rem;
         font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
-  <canvas id="bg"></canvas>
+  <!-- Animated Background -->
+  <div id="particles-js"></div>
   
   <header>
     <h1>Find-S Algorithm</h1>
-    <p>Explore interactive apps to understand concept learning with Find-S</p>
+    <p>Master concept learning through interactive visualizations, games, and real-world applications</p>
   </header>
 
   <main class="container">
     <div class="card" onclick="window.location.href='weather-classifier.html'">
       <i class="fas fa-sun"></i>
       <h2>Weather Classifier</h2>
-      <p>Learn Find-S using a simple weather dataset (e.g., Sunny, Rainy).</p>
+      <p>Learn the core concepts using a simple weather dataset. Perfect for absolute beginners.</p>
+      <div class="card-footer">
+        <span class="badge">Beginner</span>
+        <span class="badge">Visual</span>
+      </div>
     </div>
     
     <div class="card" onclick="window.location.href='custom-input-trainer.html'">
       <i class="fas fa-edit"></i>
       <h2>Custom Input Trainer</h2>
-      <p>Enter your own feature examples and labels to see how the hypothesis evolves.</p>
+      <p>Create your own training examples and watch the hypothesis evolve in real-time.</p>
+      <div class="card-footer">
+        <span class="badge">Interactive</span>
+        <span class="badge">Sandbox</span>
+      </div>
     </div>
     
     <div class="card" onclick="window.location.href='step-by-step-visualizer.html'">
       <i class="fas fa-forward"></i>
       <h2>Step-by-Step Visualizer</h2>
-      <p>Watch the algorithm update its hypothesis one example at a time.</p>
+      <p>See exactly how each training example modifies the hypothesis with detailed explanations.</p>
+      <div class="card-footer">
+        <span class="badge">Debug Mode</span>
+        <span class="badge">Learning</span>
+      </div>
     </div>
     
     <div class="card" onclick="window.location.href='csv-upload.html'">
       <i class="fas fa-file-csv"></i>
       <h2>Upload CSV</h2>
-      <p>Upload your own CSV data and apply the Find-S algorithm dynamically.</p>
+      <p>Apply Find-S to your own datasets. Supports multiple attributes and custom labels.</p>
+      <div class="card-footer">
+        <span class="badge">Advanced</span>
+        <span class="badge">Real Data</span>
+      </div>
     </div>
     
     <div class="card" onclick="window.location.href='quiz.html'">
       <i class="fas fa-question-circle"></i>
       <h2>Quiz Your Knowledge</h2>
-      <p>Test your understanding of the Find-S algorithm through mini challenges.</p>
+      <p>Test your understanding with adaptive questions that get harder as you improve.</p>
+      <div class="card-footer">
+        <span class="badge">Challenge</span>
+        <span class="badge">Assessment</span>
+      </div>
     </div>
     
     <div class="card" onclick="window.location.href='battle.html'">
       <i class="fas fa-robot"></i>
       <h2>Algorithm Arena</h2>
-      <p>Battle Find-S against other machine learning algorithms and compare their performance.</p>
+      <p>Pit Find-S against other ML algorithms and compare their strengths and weaknesses.</p>
+      <div class="card-footer">
+        <span class="badge">Competitive</span>
+        <span class="badge">Analysis</span>
+      </div>
     </div>
     
     <div class="card" onclick="window.location.href='find-s-game.html'">
-      <i class="fas fa-search"></i>
+      <i class="fas fa-gamepad"></i>
       <h2>Find-S Games</h2>
-      <p>Test your understanding of the Find-S algorithm by solving concept learning problems step-by-step.</p>
+      <p>Solve concept learning puzzles with increasing difficulty in a game-like environment.</p>
+      <div class="card-footer">
+        <span class="badge">Fun</span>
+        <span class="badge">Gamified</span>
+      </div>
     </div>
     
+    <div class="card" onclick="window.location.href='video-library.html'">
+      <i class="fas fa-video"></i>
+      <h2>Concept Video Library</h2>
+      <p>Curated video explanations with interactive quizzes after each lesson.</p>
+      <div class="card-footer">
+        <span class="badge">Tutorials</span>
+        <span class="badge">Multimedia</span>
+      </div>
+    </div>
+
     <div class="card" onclick="window.location.href='timeline.html'">
       <i class="fas fa-history"></i>
       <h2>ML Evolution Timeline</h2>
@@ -367,53 +528,164 @@
     </div>
   </main>
 
-  <div class="badge-container">
-    <span class="badge">🏅 Learner</span>
-    <span class="badge">🌟 Contributor</span>
-    <span class="badge">🚀 Explorer</span>
+  <!-- Interactive Demo Section -->
+  <div class="demo-section">
+    <h2>See Find-S in Action</h2>
+    <p>Explore these live demonstrations to understand how the algorithm works</p>
+    
+    <div class="demo-container">
+      <div class="demo-box" onclick="window.location.href='demo1.html'">
+        <h3>Animal Classifier</h3>
+        <p>Can Find-S learn to distinguish birds from mammals based on features?</p>
+      </div>
+      
+      <div class="demo-box" onclick="window.location.href='demo2.html'">
+        <h3>Spam Detector</h3>
+        <p>Watch how it learns patterns in email classification (simplified example).</p>
+      </div>
+      
+      <div class="demo-box" onclick="window.location.href='demo3.html'">
+        <h3>Medical Diagnosis</h3>
+        <p>How symptoms lead to diagnosis through concept learning.</p>
+      </div>
+    </div>
+    
+    <a href="#" class="community-link">
+      Explore Community Projects
+      <i class="fas fa-arrow-right"></i>
+    </a>
   </div>
 
-  <div class="community-section">
-    <h2>Community Datasets</h2>
-    <p>Submit your training examples and see what others have shared. <a href="#">View/Add</a></p>
-  </div>
-
-  <button class="chatbot-toggle" onclick="toggleChatbot()">Ask Find-S 🤖</button>
+  <button class="chatbot-toggle" onclick="toggleChatbot()">
+    <i class="fas fa-robot"></i> Algorithm Assistant
+  </button>
   <div class="chatbot" id="chatbot">
-    <div class="chatbot-header">Find-S Assistant</div>
+    <div class="chatbot-header">Find-S Algorithm Guide</div>
     <div class="chatbot-body">
       <details>
-        <summary>💡 What is Find-S?</summary>
-        <p>The Find-S algorithm finds the most specific hypothesis that fits all positive examples in a dataset.</p>
+        <summary><i class="fas fa-lightbulb"></i> What is Find-S?</summary>
+        <p>Find-S is a machine learning algorithm that learns the most specific hypothesis consistent with all positive training examples. It's fundamental to concept learning in AI.</p>
       </details>
       <details>
-        <summary>🛠️ How does it work?</summary>
-        <p>It starts with the most specific hypothesis and generalizes it only when necessary to match positive examples.</p>
+        <summary><i class="fas fa-cogs"></i> How does it work?</summary>
+        <p>1. Start with the most specific hypothesis<br>
+           2. For each positive example, generalize the hypothesis just enough to match it<br>
+           3. Ignore negative examples (hence "Find-S")</p>
       </details>
       <details>
-        <summary>📊 How should datasets be prepared?</summary>
-        <p>Datasets should have consistent features, include only positive examples for training, and no missing values.</p>
+        <summary><i class="fas fa-database"></i> Dataset Requirements</summary>
+        <p>- Only positive examples needed for training<br>
+           - Consistent feature representation<br>
+           - No missing values<br>
+           - Best for binary classification</p>
       </details>
       <details>
-        <summary>🧪 What is a hypothesis in Find-S?</summary>
-        <p>It's a representation of the concept being learned, updated through iterations over training data.</p>
+        <summary><i class="fas fa-question-circle"></i> Quick Quiz</summary>
+        <p>If initial H = [∅, ∅, ∅] and first example is [Sunny, Warm, Normal], what's the new H?<br><br>
+           <strong>Answer:</strong> [Sunny, Warm, Normal] (becomes maximally specific)</p>
       </details>
       <details>
-        <summary>📘 Can Find-S handle noisy data?</summary>
-        <p>Not effectively. Find-S assumes that all positive examples are correct, so it's sensitive to noise.</p>
-      </details>
-      <details>
-        <summary>🧠 Quiz: What happens if the second training example contradicts the first?</summary>
-        <p>The hypothesis is not updated because Find-S ignores negative examples.</p>
-      </details>
-      <details>
-        <summary>❓ Quiz: If H = [&quot;Sunny&quot;, "Warm", "?", "?", "?", "?"] and the next is ["Sunny", "Cold", "High", "Strong", "Warm", "Yes"]?</summary>
-        <p>H becomes ["Sunny", "?", "?", "?", "?", "?"].</p>
+        <summary><i class="fas fa-star"></i> Pro Tip</summary>
+        <p>Try the <strong>Step-by-Step Visualizer</strong> first to build intuition before moving to custom datasets.</p>
       </details>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
+    // Enhanced Particle Background
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#4a90e2"
+        },
+        "shape": {
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000"
+          },
+          "polygon": {
+            "nb_sides": 5
+          }
+        },
+        "opacity": {
+          "value": 0.3,
+          "random": true,
+          "anim": {
+            "enable": true,
+            "speed": 1,
+            "opacity_min": 0.1,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": {
+            "enable": true,
+            "speed": 2,
+            "size_min": 1,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#4a90e2",
+          "opacity": 0.2,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 1,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false,
+          "attract": {
+            "enable": true,
+            "rotateX": 600,
+            "rotateY": 1200
+          }
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": {
+            "distance": 140,
+            "line_linked": {
+              "opacity": 0.5
+            }
+          },
+          "push": {
+            "particles_nb": 4
+          }
+        }
+      },
+      "retina_detect": true
+    });
+
     // Chatbot toggle with animation
     function toggleChatbot() {
       const bot = document.getElementById("chatbot");
@@ -442,87 +714,53 @@
       }
     });
 
-    // Enhanced background animation
-    const canvas = document.getElementById("bg");
-    const ctx = canvas.getContext("2d");
-    
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    
-    resizeCanvas();
-    
-    const particles = [];
-    const particleCount = Math.floor(window.innerWidth * window.innerHeight / 2000);
-    
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2 + 1,
-        dx: (Math.random() - 0.5) * 0.8,
-        dy: (Math.random() - 0.5) * 0.8,
-        opacity: Math.random() * 0.4 + 0.2
-      });
-    }
-
-    function drawParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Draw connecting lines
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < 100) {
-            ctx.strokeStyle = `rgba(74, 144, 226, ${1 - distance/100})`;
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-      
-      // Draw particles
-      particles.forEach(p => {
-        ctx.fillStyle = `rgba(74, 144, 226, ${p.opacity})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Update position
-        p.x += p.dx;
-        p.y += p.dy;
-        
-        // Bounce off edges
-        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-      });
-      
-      requestAnimationFrame(drawParticles);
-    }
-
-    drawParticles();
-    
-    window.addEventListener("resize", () => {
-      resizeCanvas();
-    });
-
-    // Add touch support for mobile
+    // Add floating particles to cards on hover
     document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('touchstart', function() {
-        this.classList.add('touched');
-      }, false);
-      
-      card.addEventListener('touchend', function() {
-        this.classList.remove('touched');
-      }, false);
+      card.addEventListener('mouseenter', function() {
+        const particles = [];
+        const particleCount = 5;
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.classList.add('particle');
+          
+          // Random size between 3px and 6px
+          const size = Math.random() * 3 + 3;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          
+          // Random position within card
+          const rect = this.getBoundingClientRect();
+          const x = Math.random() * rect.width;
+          const y = Math.random() * rect.height;
+          
+          particle.style.left = `${x}px`;
+          particle.style.top = `${y}px`;
+          
+          // Random animation
+          const duration = Math.random() * 3 + 2;
+          particle.style.animation = `float ${duration}s ease-in-out infinite`;
+          
+          this.appendChild(particle);
+          particles.push(particle);
+        }
+        
+        // Remove particles after animation completes
+        setTimeout(() => {
+          particles.forEach(p => p.remove());
+        }, 3000);
+      });
     });
+
+    // Add animation styles dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes float {
+        0% { transform: translateY(0) translateX(0); opacity: 1; }
+        100% { transform: translateY(-100px) translateX(${Math.random() > 0.5 ? '-' : ''}20px); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
