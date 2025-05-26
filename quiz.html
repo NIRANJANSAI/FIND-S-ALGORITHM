@@ -391,6 +391,17 @@
             top: -10px;
             z-index: 999;
         }
+        
+        /* Example indicators */
+        .positive-example {
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .negative-example {
+            color: var(--wrong-color);
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -599,20 +610,20 @@
                 },
                 {
                     type: "example",
-                    question: "Given current hypothesis [Sunny, ?, ?] and new positive example [Sunny, Warm, High], what's the new hypothesis?",
+                    question: "Given current hypothesis [Sunny, ?, ?] and new <span class='positive-example'>positive example [Sunny, Warm, High]</span>, what's the new hypothesis?",
                     options: [
                         "[Sunny, Warm, High]",
                         "[Sunny, ?, ?]",
                         "[Sunny, Warm, ?]",
                         "[?, ?, ?]"
                     ],
-                    correct: 2,
+                    correct: 1,
                     explanation: "The hypothesis becomes <strong>[Sunny, Warm, ?]</strong> as it generalizes to include the new positive example while remaining as specific as possible.",
                     hint: "The algorithm generalizes only the attributes that need to change"
                 },
                 {
                     type: "tracking",
-                    question: "Given these examples in order: [Sunny, Warm, Normal], [Rainy, Cold, High], [Sunny, Warm, High], what is the final hypothesis?",
+                    question: "Given these examples in order: <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>, <span class='negative-example'>[Rainy, Cold, High] (neg)</span>, <span class='positive-example'>[Sunny, Warm, High] (pos)</span>, what is the final hypothesis?",
                     options: [
                         "[Sunny, Warm, ?]",
                         "[?, ?, ?]",
@@ -638,7 +649,7 @@
                 },
                 {
                     type: "scenario",
-                    question: "If the initial positive example is [Rainy, Cold, Normal], what would be the initial hypothesis?",
+                    question: "If the initial <span class='positive-example'>positive example</span> is [Rainy, Cold, Normal], what would be the initial hypothesis?",
                     options: [
                         "[Rainy, Cold, Normal]",
                         "[?, ?, ?]",
@@ -651,14 +662,14 @@
                 },
                 {
                     type: "example",
-                    question: "Given hypothesis [Sunny, ?, Normal] and new positive example [Sunny, Warm, High], what's the result?",
+                    question: "Given hypothesis [Sunny, ?, Normal] and new <span class='positive-example'>positive example [Sunny, Warm, High]</span>, what's the result?",
                     options: [
                         "[Sunny, ?, ?]",
                         "[Sunny, Warm, High]",
                         "[Sunny, Warm, Normal]",
                         "No change (conflict)"
                     ],
-                    correct: 3,
+                    correct: 0,
                     explanation: "There's <strong>no change</strong> because the third attribute conflicts (Normal vs High) and Find-S can't handle this inconsistency.",
                     hint: "Find-S can't handle inconsistent positive examples"
                 },
@@ -692,7 +703,7 @@
                 },
                 {
                     type: "example",
-                    question: "Given examples: [Sunny, Warm, Normal] (pos), [Rainy, Cold, High] (neg), [Sunny, Warm, High] (pos), what's the final hypothesis?",
+                    question: "Given examples: <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>, <span class='negative-example'>[Rainy, Cold, High] (neg)</span>, <span class='positive-example'>[Sunny, Warm, High] (pos)</span>, what's the final hypothesis?",
                     options: [
                         "[Sunny, Warm, ?]",
                         "[Sunny, ?, ?]",
@@ -705,7 +716,7 @@
                 },
                 {
                     type: "edge-case",
-                    question: "What happens if the first training example is negative?",
+                    question: "What happens if the first training example is <span class='negative-example'>negative</span>?",
                     options: [
                         "The hypothesis remains most specific",
                         "The algorithm skips it and waits for first positive",
@@ -731,7 +742,7 @@
                 },
                 {
                     type: "scenario",
-                    question: "If given inconsistent positive examples (e.g., same attributes, different labels), what happens?",
+                    question: "If given inconsistent <span class='positive-example'>positive examples</span> (e.g., same attributes, different labels), what happens?",
                     options: [
                         "The algorithm finds a hypothesis that matches some examples",
                         "The hypothesis becomes maximally general",
@@ -744,7 +755,7 @@
                 },
                 {
                     type: "tracking",
-                    question: "Given these examples: [Sunny, Warm, Normal] (pos), [Rainy, Cold, High] (neg), [Sunny, Cold, Normal] (pos), what's the final hypothesis?",
+                    question: "Given these examples: <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>, <span class='negative-example'>[Rainy, Cold, High] (neg)</span>, <span class='positive-example'>[Sunny, Cold, Normal] (pos)</span>, what's the final hypothesis?",
                     options: [
                         "[Sunny, ?, Normal]",
                         "[Sunny, Warm, Normal]",
@@ -785,7 +796,7 @@
             4: [
                 {
                     type: "timed",
-                    question: "Given these examples in order: [Sunny, Warm, Normal, Strong] (pos), [Rainy, Cold, High, Weak] (neg), [Sunny, Warm, High, Strong] (pos), what's the final hypothesis?",
+                    question: "Given these examples in order: <span class='positive-example'>[Sunny, Warm, Normal, Strong] (pos)</span>, <span class='negative-example'>[Rainy, Cold, High, Weak] (neg)</span>, <span class='positive-example'>[Sunny, Warm, High, Strong] (pos)</span>, what's the final hypothesis?",
                     options: [
                         "[Sunny, Warm, ?, Strong]",
                         "[Sunny, ?, ?, Strong]",
@@ -798,20 +809,20 @@
                 },
                 {
                     type: "timed",
-                    question: "If the initial hypothesis is [Φ, Φ, Φ] and first positive is [Rainy, Cold, High], what's the next hypothesis after seeing [Sunny, Warm, Normal] (pos)?",
+                    question: "If the initial hypothesis is [Φ, Φ, Φ] and first <span class='positive-example'>positive is [Rainy, Cold, High]</span>, what's the next hypothesis after seeing <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>?",
                     options: [
                         "[?, ?, ?]",
                         "No change (conflict)",
                         "[Rainy, Cold, High]",
                         "[?, ?, ?]"
                     ],
-                    correct: 1,
-                    explanation: "<strong>No change</strong> because the examples conflict on all attributes and Find-S can't handle this.",
+                    correct: 2,
+                    explanation: "<strong>[Rainy, Cold, High]</strong> because the positive examples will be replaced with the initial hypothesis .",
                     hint: "The examples have no attributes in common"
                 },
                 {
                     type: "timed",
-                    question: "Given: [Sunny, Warm, Normal] (pos), [Rainy, Cold, High] (neg), [Sunny, Cold, Normal] (pos), [Sunny, Warm, High] (pos), what's the final hypothesis?",
+                    question: "Given: <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>, <span class='negative-example'>[Rainy, Cold, High] (neg)</span>, <span class='positive-example'>[Sunny, Cold, Normal] (pos)</span>, <span class='positive-example'>[Sunny, Warm, High] (pos)</span>, what's the final hypothesis?",
                     options: [
                         "[Sunny, ?, ?]",
                         "[Sunny, Warm, ?]",
@@ -824,7 +835,7 @@
                 },
                 {
                     type: "timed",
-                    question: "What's the minimum number of examples needed for Find-S to reach [?, ?, ?]?",
+                    question: "What's the minimum number of <span class='positive-example'>positive examples</span> needed for Find-S to reach [?, ?, ?]?",
                     options: [
                         "1",
                         "2",
@@ -837,7 +848,7 @@
                 },
                 {
                     type: "timed",
-                    question: "Given: [Sunny, Warm, Normal] (pos), [Sunny, Warm, High] (pos), what's the hypothesis?",
+                    question: "Given: <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>, <span class='positive-example'>[Sunny, Warm, High] (pos)</span>, what's the hypothesis?",
                     options: [
                         "[Sunny, Warm, ?]",
                         "[Sunny, ?, ?]",
@@ -850,7 +861,7 @@
                 },
                 {
                     type: "timed",
-                    question: "If all examples are negative, what does Find-S return?",
+                    question: "If all examples are <span class='negative-example'>negative</span>, what does Find-S return?",
                     options: [
                         "[Φ, Φ, Φ]",
                         "[?, ?, ?]",
@@ -863,7 +874,7 @@
                 },
                 {
                     type: "timed",
-                    question: "Given: [Sunny, Warm, Normal] (pos), [Rainy, Cold, High] (pos), what's the hypothesis?",
+                    question: "Given: <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>, <span class='positive-example'>[Rainy, Cold, High] (pos)</span>, what's the hypothesis?",
                     options: [
                         "[?, ?, ?]",
                         "[Sunny, Warm, Normal]",
@@ -876,7 +887,7 @@
                 },
                 {
                     type: "timed",
-                    question: "What's the hypothesis after: [Sunny, Warm, Normal] (pos), [Sunny, Warm, Normal] (pos)?",
+                    question: "What's the hypothesis after: <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>, <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>?",
                     options: [
                         "[Sunny, Warm, Normal]",
                         "[Sunny, ?, ?]",
@@ -889,7 +900,7 @@
                 },
                 {
                     type: "timed",
-                    question: "After [Sunny, Warm, Normal] (pos), [Sunny, Cold, Normal] (pos), what's the hypothesis?",
+                    question: "After <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>, <span class='positive-example'>[Sunny, Cold, Normal] (pos)</span>, what's the hypothesis?",
                     options: [
                         "[Sunny, ?, Normal]",
                         "[?, ?, Normal]",
@@ -902,7 +913,7 @@
                 },
                 {
                     type: "timed",
-                    question: "Given: [Sunny, Warm, Normal] (pos), [Sunny, Warm, High] (neg), [Sunny, Warm, High] (pos), what's the final hypothesis?",
+                    question: "Given: <span class='positive-example'>[Sunny, Warm, Normal] (pos)</span>, <span class='negative-example'>[Sunny, Warm, High] (neg)</span>, <span class='positive-example'>[Sunny, Warm, High] (pos)</span>, what's the final hypothesis?",
                     options: [
                         "[Sunny, Warm, ?]",
                         "[Sunny, Warm, High]",
@@ -914,7 +925,7 @@
                     hint: "Remember to ignore negative examples"
                 }
             ]
-        };
+        }
 
         // ======================
         // Quiz State
