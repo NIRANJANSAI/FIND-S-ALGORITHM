@@ -584,13 +584,335 @@
                 }
             ],
             2: [
-                // Intermediate questions...
+                {
+                    type: "concept",
+                    question: "In Find-S, what happens when a new positive example contradicts the current hypothesis?",
+                    options: [
+                        "The algorithm stops and returns an error",
+                        "The hypothesis is generalized to accommodate the new example",
+                        "The example is ignored",
+                        "The hypothesis is made more specific"
+                    ],
+                    correct: 1,
+                    explanation: "When a positive example contradicts the current hypothesis, the algorithm <strong>generalizes the hypothesis</strong> to accommodate it by replacing specific attributes with '?'.",
+                    hint: "Think about how the algorithm handles inconsistent positive examples"
+                },
+                {
+                    type: "example",
+                    question: "Given current hypothesis [Sunny, ?, ?] and new positive example [Sunny, Warm, High], what's the new hypothesis?",
+                    options: [
+                        "[Sunny, Warm, High]",
+                        "[Sunny, ?, ?]",
+                        "[Sunny, Warm, ?]",
+                        "[?, ?, ?]"
+                    ],
+                    correct: 2,
+                    explanation: "The hypothesis becomes <strong>[Sunny, Warm, ?]</strong> as it generalizes to include the new positive example while remaining as specific as possible.",
+                    hint: "The algorithm generalizes only the attributes that need to change"
+                },
+                {
+                    type: "tracking",
+                    question: "Given these examples in order: [Sunny, Warm, Normal], [Rainy, Cold, High], [Sunny, Warm, High], what is the final hypothesis?",
+                    options: [
+                        "[Sunny, Warm, ?]",
+                        "[?, ?, ?]",
+                        "[Sunny, ?, ?]",
+                        "[Sunny, Warm, High]"
+                    ],
+                    correct: 0,
+                    explanation: "The final hypothesis is <strong>[Sunny, Warm, ?]</strong>. The second example is negative (ignored), and the third causes generalization of the third attribute.",
+                    hint: "Remember to ignore negative examples and track changes from positive ones"
+                },
+                {
+                    type: "properties",
+                    question: "Which of these is a limitation of Find-S?",
+                    options: [
+                        "It can't handle continuous-valued attributes",
+                        "It assumes the target concept is in the hypothesis space",
+                        "It requires many negative examples",
+                        "It's computationally expensive"
+                    ],
+                    correct: 1,
+                    explanation: "Find-S <strong>assumes the target concept is in the hypothesis space</strong> and that the training data is noise-free, which are significant limitations.",
+                    hint: "Think about the assumptions the algorithm makes"
+                },
+                {
+                    type: "scenario",
+                    question: "If the initial positive example is [Rainy, Cold, Normal], what would be the initial hypothesis?",
+                    options: [
+                        "[Rainy, Cold, Normal]",
+                        "[?, ?, ?]",
+                        "[Φ, Φ, Φ]",
+                        "[Rainy, ?, ?]"
+                    ],
+                    correct: 0,
+                    explanation: "The first positive example <strong>becomes the initial hypothesis</strong>, so it would be [Rainy, Cold, Normal].",
+                    hint: "Remember how the algorithm starts"
+                },
+                {
+                    type: "example",
+                    question: "Given hypothesis [Sunny, ?, Normal] and new positive example [Sunny, Warm, High], what's the result?",
+                    options: [
+                        "[Sunny, ?, ?]",
+                        "[Sunny, Warm, High]",
+                        "[Sunny, Warm, Normal]",
+                        "No change (conflict)"
+                    ],
+                    correct: 3,
+                    explanation: "There's <strong>no change</strong> because the third attribute conflicts (Normal vs High) and Find-S can't handle this inconsistency.",
+                    hint: "Find-S can't handle inconsistent positive examples"
+                },
+                {
+                    type: "concept",
+                    question: "Why does Find-S ignore negative examples?",
+                    options: [
+                        "Because they don't provide information about the target concept",
+                        "Because the algorithm assumes no negative examples exist",
+                        "Because they would make the hypothesis too general",
+                        "Because they're already handled by the positive examples"
+                    ],
+                    correct: 0,
+                    explanation: "Negative examples are ignored because they <strong>don't provide information</strong> about what the target concept is, only what it isn't.",
+                    hint: "Think about what information negative examples provide"
+                }
             ],
             3: [
-                // Advanced questions...
+                {
+                    type: "concept",
+                    question: "What is the main reason Find-S might not find the correct hypothesis?",
+                    options: [
+                        "It doesn't consider all possible hypotheses",
+                        "It gets stuck in local minima",
+                        "It requires gradient descent",
+                        "It's too slow for large datasets"
+                    ],
+                    correct: 0,
+                    explanation: "Find-S <strong>doesn't consider all possible hypotheses</strong> - it just finds one consistent hypothesis without any guarantee it's the correct one.",
+                    hint: "Think about the algorithm's search strategy"
+                },
+                {
+                    type: "example",
+                    question: "Given examples: [Sunny, Warm, Normal] (pos), [Rainy, Cold, High] (neg), [Sunny, Warm, High] (pos), what's the final hypothesis?",
+                    options: [
+                        "[Sunny, Warm, ?]",
+                        "[Sunny, ?, ?]",
+                        "[?, Warm, ?]",
+                        "[Sunny, Warm, High]"
+                    ],
+                    correct: 0,
+                    explanation: "The final hypothesis is <strong>[Sunny, Warm, ?]</strong> - ignoring the negative example and generalizing the third attribute for the second positive.",
+                    hint: "Track each positive example in order, ignoring negatives"
+                },
+                {
+                    type: "edge-case",
+                    question: "What happens if the first training example is negative?",
+                    options: [
+                        "The hypothesis remains most specific",
+                        "The algorithm skips it and waits for first positive",
+                        "It becomes most general",
+                        "The algorithm terminates with error"
+                    ],
+                    correct: 1,
+                    explanation: "Find-S <strong>skips negative examples</strong> until it finds the first positive example to initialize the hypothesis.",
+                    hint: "Remember how the algorithm initializes"
+                },
+                {
+                    type: "properties",
+                    question: "Which property is NOT true about Find-S?",
+                    options: [
+                        "It's guaranteed to find a consistent hypothesis if one exists",
+                        "It always finds the most specific hypothesis",
+                        "It can handle noisy training data",
+                        "It's deterministic"
+                    ],
+                    correct: 2,
+                    explanation: "Find-S <strong>cannot handle noisy training data</strong> as it assumes all examples are correctly labeled.",
+                    hint: "Think about the algorithm's assumptions"
+                },
+                {
+                    type: "scenario",
+                    question: "If given inconsistent positive examples (e.g., same attributes, different labels), what happens?",
+                    options: [
+                        "The algorithm finds a hypothesis that matches some examples",
+                        "The hypothesis becomes maximally general",
+                        "The algorithm gets stuck with an inconsistent hypothesis",
+                        "It averages the conflicting examples"
+                    ],
+                    correct: 2,
+                    explanation: "Find-S <strong>gets stuck with an inconsistent hypothesis</strong> when given conflicting positive examples, as it can't handle noise.",
+                    hint: "The algorithm has no mechanism for handling noise"
+                },
+                {
+                    type: "tracking",
+                    question: "Given these examples: [Sunny, Warm, Normal] (pos), [Rainy, Cold, High] (neg), [Sunny, Cold, Normal] (pos), what's the final hypothesis?",
+                    options: [
+                        "[Sunny, ?, Normal]",
+                        "[Sunny, Warm, Normal]",
+                        "[?, ?, Normal]",
+                        "[Sunny, Cold, Normal]"
+                    ],
+                    correct: 0,
+                    explanation: "The final hypothesis is <strong>[Sunny, ?, Normal]</strong> - generalizing the second attribute to accommodate both positive examples.",
+                    hint: "Track how each positive example affects the hypothesis"
+                },
+                {
+                    type: "limitations",
+                    question: "Why is Find-S considered a 'greedy' algorithm?",
+                    options: [
+                        "It always chooses the immediate best option without backtracking",
+                        "It requires significant computational resources",
+                        "It tries to maximize the number of covered examples",
+                        "It minimizes the hypothesis space"
+                    ],
+                    correct: 0,
+                    explanation: "Find-S is greedy because it <strong>makes locally optimal choices</strong> (most specific hypothesis at each step) without considering global optimality.",
+                    hint: "Think about the algorithm's decision-making process"
+                },
+                {
+                    type: "advanced",
+                    question: "How could you modify Find-S to handle noisy data?",
+                    options: [
+                        "By allowing some attributes to be ignored",
+                        "By considering both positive and negative examples",
+                        "By using a voting mechanism for conflicting examples",
+                        "All of the above"
+                    ],
+                    correct: 3,
+                    explanation: "To handle noise, you'd need modifications like <strong>allowing ignored attributes, considering negatives, or voting mechanisms</strong> - none of which are in basic Find-S.",
+                    hint: "Think about ways to make the algorithm more robust"
+                }
             ],
             4: [
-                // Expert questions...
+                {
+                    type: "timed",
+                    question: "Given these examples in order: [Sunny, Warm, Normal, Strong] (pos), [Rainy, Cold, High, Weak] (neg), [Sunny, Warm, High, Strong] (pos), what's the final hypothesis?",
+                    options: [
+                        "[Sunny, Warm, ?, Strong]",
+                        "[Sunny, ?, ?, Strong]",
+                        "[Sunny, Warm, ?, ?]",
+                        "[Sunny, Warm, High, Strong]"
+                    ],
+                    correct: 0,
+                    explanation: "Final hypothesis is <strong>[Sunny, Warm, ?, Strong]</strong> - generalizing only the third attribute to accommodate both positives.",
+                    hint: "Track each positive example's effect"
+                },
+                {
+                    type: "timed",
+                    question: "If the initial hypothesis is [Φ, Φ, Φ] and first positive is [Rainy, Cold, High], what's the next hypothesis after seeing [Sunny, Warm, Normal] (pos)?",
+                    options: [
+                        "[?, ?, ?]",
+                        "No change (conflict)",
+                        "[Rainy, Cold, High]",
+                        "[?, ?, ?]"
+                    ],
+                    correct: 1,
+                    explanation: "<strong>No change</strong> because the examples conflict on all attributes and Find-S can't handle this.",
+                    hint: "The examples have no attributes in common"
+                },
+                {
+                    type: "timed",
+                    question: "Given: [Sunny, Warm, Normal] (pos), [Rainy, Cold, High] (neg), [Sunny, Cold, Normal] (pos), [Sunny, Warm, High] (pos), what's the final hypothesis?",
+                    options: [
+                        "[Sunny, ?, ?]",
+                        "[Sunny, Warm, ?]",
+                        "[Sunny, ?, Normal]",
+                        "[Sunny, Cold, ?]"
+                    ],
+                    correct: 0,
+                    explanation: "Final hypothesis is <strong>[Sunny, ?, ?]</strong> as it's the most specific that covers all positive examples.",
+                    hint: "Find the most specific hypothesis covering all positives"
+                },
+                {
+                    type: "timed",
+                    question: "What's the minimum number of examples needed for Find-S to reach [?, ?, ?]?",
+                    options: [
+                        "1",
+                        "2",
+                        "3",
+                        "Impossible to reach"
+                    ],
+                    correct: 1,
+                    explanation: "Just <strong>two positive examples</strong> with no common attributes will force [?, ?, ?] (e.g., [Sunny, Warm, Normal] and [Rainy, Cold, High]).",
+                    hint: "Think about completely different examples"
+                },
+                {
+                    type: "timed",
+                    question: "Given: [Sunny, Warm, Normal] (pos), [Sunny, Warm, High] (pos), what's the hypothesis?",
+                    options: [
+                        "[Sunny, Warm, ?]",
+                        "[Sunny, ?, ?]",
+                        "[?, Warm, ?]",
+                        "[Sunny, Warm, Normal]"
+                    ],
+                    correct: 0,
+                    explanation: "Hypothesis is <strong>[Sunny, Warm, ?]</strong> - generalizing only the attribute that differs (third one).",
+                    hint: "Generalize only the differing attribute"
+                },
+                {
+                    type: "timed",
+                    question: "If all examples are negative, what does Find-S return?",
+                    options: [
+                        "[Φ, Φ, Φ]",
+                        "[?, ?, ?]",
+                        "An error message",
+                        "A random hypothesis"
+                    ],
+                    correct: 0,
+                    explanation: "With no positive examples, Find-S returns <strong>[Φ, Φ, Φ]</strong> (most specific, covers nothing).",
+                    hint: "No positives means no generalization"
+                },
+                {
+                    type: "timed",
+                    question: "Given: [Sunny, Warm, Normal] (pos), [Rainy, Cold, High] (pos), what's the hypothesis?",
+                    options: [
+                        "[?, ?, ?]",
+                        "[Sunny, Warm, Normal]",
+                        "[Rainy, Cold, High]",
+                        "[?, ?, ?]"
+                    ],
+                    correct: 0,
+                    explanation: "Hypothesis becomes <strong>[?, ?, ?]</strong> as the examples share no common attributes.",
+                    hint: "Completely different examples force full generalization"
+                },
+                {
+                    type: "timed",
+                    question: "What's the hypothesis after: [Sunny, Warm, Normal] (pos), [Sunny, Warm, Normal] (pos)?",
+                    options: [
+                        "[Sunny, Warm, Normal]",
+                        "[Sunny, ?, ?]",
+                        "[?, Warm, ?]",
+                        "[?, ?, Normal]"
+                    ],
+                    correct: 0,
+                    explanation: "The hypothesis remains <strong>[Sunny, Warm, Normal]</strong> as identical examples don't require generalization.",
+                    hint: "Identical examples don't change the hypothesis"
+                },
+                {
+                    type: "timed",
+                    question: "After [Sunny, Warm, Normal] (pos), [Sunny, Cold, Normal] (pos), what's the hypothesis?",
+                    options: [
+                        "[Sunny, ?, Normal]",
+                        "[?, ?, Normal]",
+                        "[Sunny, Warm, Normal]",
+                        "[Sunny, Cold, Normal]"
+                    ],
+                    correct: 0,
+                    explanation: "Hypothesis becomes <strong>[Sunny, ?, Normal]</strong> - generalizing the differing attribute (second one).",
+                    hint: "Generalize only the attribute that differs"
+                },
+                {
+                    type: "timed",
+                    question: "Given: [Sunny, Warm, Normal] (pos), [Sunny, Warm, High] (neg), [Sunny, Warm, High] (pos), what's the final hypothesis?",
+                    options: [
+                        "[Sunny, Warm, ?]",
+                        "[Sunny, Warm, High]",
+                        "[Sunny, ?, ?]",
+                        "[?, Warm, ?]"
+                    ],
+                    correct: 0,
+                    explanation: "Final hypothesis is <strong>[Sunny, Warm, ?]</strong> - ignoring the negative and generalizing for the second positive.",
+                    hint: "Remember to ignore negative examples"
+                }
             ]
         };
 
@@ -949,21 +1271,6 @@
 
         // Initialize
         loadLevelSelection();
-
-        // ======================
-        // Sample Data for Other Levels
-        // ======================
-        levelQuestions[2] = [
-            // Intermediate questions...
-        ];
-
-        levelQuestions[3] = [
-            // Advanced questions...
-        ];
-
-        levelQuestions[4] = [
-            // Expert questions...
-        ];
     </script>
 </body>
 </html>
